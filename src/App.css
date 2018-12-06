@@ -22,6 +22,21 @@
   color: #61dafb;
 }
 
+ul {
+  list-style-type: none;
+  margin:0px;
+  padding: 0px;
+}
+
+ul.inline  li {
+  display: inline;
+  font-weight: bold;
+  font-size: 2em;
+  margin: 15px;
+  border-style: solid;
+  border-color:burlywood;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
