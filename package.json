@@ -27,6 +27,8 @@
   ],
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
-    "dom-testing-library": "^3.12.5"
+    "dom-testing-library": "^3.12.5",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0"
   }
 }

@@ -3,12 +3,26 @@ import { useState } from "react";
 import "./NumberInput.css";
 
 export default function NumberInput(props) {
-  const numberOfSlots = 6;
+  const { numberOfSlots } = props;
 
-  const [tab, setTab] = useState([0, 0, 0, 0, 0, 0]);
+  const [tab, setTab] = useState(() => {
+    let initTab = [];
+    for (let i = 0; i < numberOfSlots; i++) {
+      initTab.push(0);
+    }
+    return initTab;
+  });
+
+  const isSetUpNumbers = () => {
+    let result = true;
+    tab.map(e => {
+      if (e === 0) result = false;
+      return result;
+    });
+    return result;
+  };
 
   const changeValue = e => {
-    console.log(Number(e.target.id) + Number(parseInt(1)));
     setTab(
       tab.fill(
         Number(e.target.value),
@@ -16,7 +30,7 @@ export default function NumberInput(props) {
         Number(e.target.id) + Number(parseInt(1))
       )
     );
-    props.setInputNumbers(tab);
+    props.setInputNumbers(tab, isSetUpNumbers());
   };
 
   function createSlots() {
