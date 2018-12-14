@@ -4,11 +4,18 @@ export default function LotteryResults(props) {
   const { drawCounter, winingsTab } = props.data;
 
   const plusStyle = {
-    color:'green'
+    color: "green"
   };
-  
+
   const minusStyle = {
-    color:'red'
+    color: "red"
+  };
+
+  const styledValue = value => {
+    return new Intl.NumberFormat("pl-PL", {
+      style: "currency",
+      currency: "PLN"
+    }).format(value);
   };
 
   const getNumber = nr => {
@@ -19,10 +26,10 @@ export default function LotteryResults(props) {
 
   const winningMoney = () => {
     return (
-      getNumber(2) * 25 +
-      getNumber(3) * 200 +
-      getNumber(4) * 6000 +
-      getNumber(5) * 2000000
+      getNumber(3) * 25 +
+      getNumber(4) * 200 +
+      getNumber(5) * 6000 +
+      getNumber(6) * 2000000
     );
   };
 
@@ -34,9 +41,9 @@ export default function LotteryResults(props) {
     const diff = winningMoney() - spendMoney();
     let result = "";
     if (diff < 0) {
-      result = <span style={minusStyle}>Na minusie: {diff} PLN</span>;
+      result = <span style={minusStyle}>Na minusie: {styledValue(diff)}</span>;
     } else {
-      result = <span style={plusStyle}>Na plusie: {diff} PLN</span>;
+      result = <span style={plusStyle}>Na plusie: {styledValue(diff)}</span>;
     }
     return result;
   };
@@ -45,16 +52,16 @@ export default function LotteryResults(props) {
     <div>
       <p>Ilosc losowań: {drawCounter}</p>
       <p>
-        <span> Kasa wydana na zaklady: {spendMoney()} PLN</span>
-        <span> Kasa wygrana: {winningMoney()} PLN</span>
+        <small> Kasa wydana na zaklady: {styledValue(spendMoney())}</small>
+        <small> Kasa wygrana: {styledValue(winningMoney())}</small>
       </p>
       <p> {difference()}</p>
       <ul>
-        <li>Wygrane: 0</li>
-        <li>Trafiona 3: {getNumber(2)}</li>
-        <li>Trafiona 4: {getNumber(3)}</li>
-        <li>Trafiona 5: {getNumber(4)}</li>
-        <li>Trafiona 6: {getNumber(5)}</li>
+        <li>Wygrane:</li>
+        <li><h1>Trafiona 6: {getNumber(6)}</h1></li>
+        <li><h2>Trafiona 5: {getNumber(5)}</h2></li>
+        <li><h3>Trafiona 4: {getNumber(4)}</h3></li>
+        <li><h4>Trafiona 3: {getNumber(3)}</h4></li>
       </ul>
     </div>
   );

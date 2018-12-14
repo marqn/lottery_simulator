@@ -28,6 +28,12 @@ test("getRandomValue test", () => {
   expect(wrapper.state("numberOfWinings")).toEqual([0, 0, 0, 1, 1, 0]);
 });
 
+test("unique random numbers ", () => {
+  const wrapper = shallow(<App />);
+  let randomNumbers = wrapper.instance().getRandomNumbers();
+  console.log('heheh ' + randomNumbers);
+});
+
 test("is numbers sorted ", () => {
   
 });

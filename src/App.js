@@ -5,21 +5,24 @@ import LotteryResults from "./components/LotteryResults";
 import DrawnNumbers from "./components/DrawnNumbers";
 import StartButton from "./components/StartButton";
 
+const initialState = {
+  settings: {
+    name: "Duży Lotek",
+    rangeOfNumbers: 46,
+    numberOfSlots: 6,
+    interval: 1
+  },
+  selectedNumbers: [],
+  drawNumbers: [0, 0, 0, 0, 0, 0],
+  drawCounter: 0,
+  intervalFn: "",
+  isNumberInputEmpty: false,
+  numberOfWinings: [],
+  winingsTab: []
+};
+
 class App extends Component {
-  state = {
-    settings: {
-      name: "Duży Lotek",
-      rangeOfNumbers: 46,
-      numberOfSlots: 6
-    },
-    selectedNumbers: [],
-    drawNumbers: [0, 0, 0, 0, 0, 0],
-    drawCounter: 0,
-    intervalFn: "",
-    isNumberInputEmpty: false,
-    numberOfWinings: [],
-    winingsTab: []
-  };
+  state = initialState;
 
   getRandomValue = () => {
     return Math.ceil(Math.random() * this.state.settings.rangeOfNumbers);
@@ -30,13 +33,38 @@ class App extends Component {
   };
 
   getRandomNumbers = () => {
-    const tab = Array.from({ length: this.state.settings.numberOfSlots }, () =>
+    let tab = Array.from({ length: this.state.settings.numberOfSlots }, () =>
       this.getRandomValue()
     );
+
+    while (!this.isUniqueValues(tab)) {
+      tab = Array.from({ length: this.state.settings.numberOfSlots }, () =>
+        this.getRandomValue()
+      );
+    }
+    
 
     return tab.sort(this.compareNumbers);
   };
 
+  isUniqueValues = tab => {
+    let result = true;
+    let duplicates = tab.reduce(function(acc, el, i, arr) {
+      if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el);
+      return acc;
+    }, []);
+    if (duplicates.length > 0) result = false;
+
+    return result;
+  };
+
+  reset = () => {
+    let selectedNumbers = this.state.selectedNumbers;
+    this.setState(initialState);
+    this.setState({ isNumberInputEmpty: true, selectedNumbers:selectedNumbers });
+
+    console.log(this.state);
+  };
   startStopInterval = () => {
     this.state.intervalFn === "" && this.startTheDraw();
     this.state.intervalFn !== "" && this.stopTheDraw();
@@ -44,7 +72,6 @@ class App extends Component {
 
   stopTheDraw = () => {
     clearInterval(this.state.intervalFn);
-    this.setState({ intervalFn: "" });
   };
 
   fillNumberOfWinings = () => {
@@ -65,7 +92,9 @@ class App extends Component {
     drawNumbers.map(dnr => {
       selectNumbers.map(snr => {
         if (snr === dnr) equalCounter++;
+        return "";
       });
+      return "";
     });
 
     this.fillNumberOfWinings();
@@ -83,13 +112,18 @@ class App extends Component {
   };
 
   startTheDraw = () => {
+    // let counter = 0;
     let intervalId = setInterval(() => {
       this.setState({
         drawNumbers: this.getRandomNumbers(),
         drawCounter: this.state.drawCounter + 1
       });
       this.checkResults(this.state.drawNumbers, this.state.selectedNumbers);
-    }, 1000);
+      // counter++;
+      // if (counter > 333) {
+      //   this.stopTheDraw();
+      // }
+    }, this.state.settings.interval);
 
     this.setState({ intervalFn: intervalId });
   };
@@ -118,6 +152,7 @@ class App extends Component {
             isNumberInputEmpty={this.state.isNumberInputEmpty}
             intervalFn={this.state.intervalFn}
             startStopInterval={this.startStopInterval}
+            reset={this.reset}
           />
 
           <LotteryResults data={this.state} />
