@@ -4,14 +4,11 @@ import NumberInput from "./NumberInput";
 import LotteryResults from "./components/LotteryResults";
 import DrawnNumbers from "./components/DrawnNumbers";
 import StartButton from "./components/StartButton";
+import {duzy_lotek, maly_lotek, multi_lotek} from './const/TypeOfGame'
 
 const initialState = {
-  settings: {
-    name: "Duży Lotek",
-    rangeOfNumbers: 46,
-    numberOfSlots: 6,
-    interval: 1
-  },
+  settings: {},
+  timeInterval: 1,
   selectedNumbers: [],
   drawNumbers: [0, 0, 0, 0, 0, 0],
   drawCounter: 0,
@@ -22,7 +19,14 @@ const initialState = {
 };
 
 class App extends Component {
-  state = initialState;
+  
+
+  constructor() {
+    super()
+    
+    initialState.settings = duzy_lotek;
+    this.state = initialState;
+  }
 
   getRandomValue = () => {
     return Math.ceil(Math.random() * this.state.settings.rangeOfNumbers);
@@ -123,7 +127,7 @@ class App extends Component {
       // if (counter > 333) {
       //   this.stopTheDraw();
       // }
-    }, this.state.settings.interval);
+    }, this.state.timeInterval);
 
     this.setState({ intervalFn: intervalId });
   };
