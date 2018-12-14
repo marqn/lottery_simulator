@@ -4,7 +4,8 @@ import NumberInput from "./NumberInput";
 import LotteryResults from "./components/LotteryResults";
 import DrawnNumbers from "./components/DrawnNumbers";
 import StartButton from "./components/StartButton";
-import {duzy_lotek, maly_lotek, multi_lotek} from './const/TypeOfGame'
+import { duzy_lotek, maly_lotek, multi_lotek } from "./const/TypeOfGame";
+import GameSelector from "./components/GameSelector";
 
 const initialState = {
   settings: {},
@@ -19,11 +20,9 @@ const initialState = {
 };
 
 class App extends Component {
-  
-
   constructor() {
-    super()
-    
+    super();
+
     initialState.settings = duzy_lotek;
     this.state = initialState;
   }
@@ -46,7 +45,6 @@ class App extends Component {
         this.getRandomValue()
       );
     }
-    
 
     return tab.sort(this.compareNumbers);
   };
@@ -65,7 +63,10 @@ class App extends Component {
   reset = () => {
     let selectedNumbers = this.state.selectedNumbers;
     this.setState(initialState);
-    this.setState({ isNumberInputEmpty: true, selectedNumbers:selectedNumbers });
+    this.setState({
+      isNumberInputEmpty: true,
+      selectedNumbers: selectedNumbers
+    });
 
     console.log(this.state);
   };
@@ -143,6 +144,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
+          <GameSelector />
           <h1>Lottery simulator - {this.state.settings.name}</h1>
 
           <DrawnNumbers tabNumbers={this.state.drawNumbers} />
