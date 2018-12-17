@@ -3,7 +3,7 @@ import "./App.css";
 import NumberInput from "./NumberInput";
 import LotteryResults from "./components/LotteryResults";
 import DrawnNumbers from "./components/DrawnNumbers";
-import StartButton from "./components/StartButton";
+import StartBtns from "./components/StartBtns";
 import { duzy_lotek, maly_lotek, multi_lotek } from "./const/TypeOfGame";
 import GameSelector from "./components/GameSelector";
 
@@ -67,8 +67,6 @@ class App extends Component {
       isNumberInputEmpty: true,
       selectedNumbers: selectedNumbers
     });
-
-    console.log(this.state);
   };
   startStopInterval = () => {
     this.state.intervalFn === "" && this.startTheDraw();
@@ -111,23 +109,19 @@ class App extends Component {
     let tabMatrix = this.state.winingsTab;
 
     tabMatrix[equalCounter].push(drawNumbers);
-    console.log(tabMatrix);
 
     this.setState({ numberOfWinings: tab });
   };
 
   startTheDraw = () => {
-    // let counter = 0;
+
     let intervalId = setInterval(() => {
       this.setState({
         drawNumbers: this.getRandomNumbers(),
         drawCounter: this.state.drawCounter + 1
       });
       this.checkResults(this.state.drawNumbers, this.state.selectedNumbers);
-      // counter++;
-      // if (counter > 333) {
-      //   this.stopTheDraw();
-      // }
+
     }, this.state.timeInterval);
 
     this.setState({ intervalFn: intervalId });
@@ -154,7 +148,7 @@ class App extends Component {
             setInputNumbers={this.setInputNumbers}
           />
 
-          <StartButton
+          <StartBtns
             isNumberInputEmpty={this.state.isNumberInputEmpty}
             intervalFn={this.state.intervalFn}
             startStopInterval={this.startStopInterval}

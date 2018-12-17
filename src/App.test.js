@@ -31,7 +31,6 @@ test("getRandomValue test", () => {
 test("unique random numbers ", () => {
   const wrapper = shallow(<App />);
   let randomNumbers = wrapper.instance().getRandomNumbers();
-  console.log('heheh ' + randomNumbers);
 });
 
 test("is numbers sorted ", () => {
